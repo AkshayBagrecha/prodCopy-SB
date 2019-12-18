@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>false</active>
+    <allowRecall>false</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>SBQQ__Discount__c</field>
+        <field>SBQQ__AdditionalDiscount__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <type>userHierarchyField</type>
+            </approver>
+        </assignedApprover>
+        <entryCriteria>
+            <criteriaItems>
+                <field>SBQQ__QuoteLine__c.SBQQ__Discount__c</field>
+                <operation>greaterThan</operation>
+                <value>15</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>SBQQ__QuoteLine__c.SBQQ__Discount__c</field>
+                <operation>lessOrEqual</operation>
+                <value>30</value>
+            </criteriaItems>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>Discount greater than 15% and less than 30%</label>
+        <name>Discount_greater_than_15_and_less_than_30</name>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>cro@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>AND( SBQQ__Discount__c &gt; 30,
+     SBQQ__Discount__c &lt;=40,
+     ISPICKVAL(CreatedBy.Region__c , &#39;EMEA&#39;) 
+)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>Discount greater than 30% and less than 40% with region EMEA</label>
+        <name>Discount_greater_than_30_and_less_than_40_with_region_EMEA</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>matt.mccusker@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>AND( SBQQ__Discount__c &lt;30,
+     SBQQ__Discount__c  &lt;= 40,
+      ISPICKVAL(CreatedBy.Region__c, &#39; NA/AUS&#39;) 
+)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>Discount greater than 30% and less than 40% with region  NA/ US</label>
+        <name>Discount_greater_than_30_and_less_than_40_with_region_NA_US</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>rst@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <criteriaItems>
+                <field>SBQQ__QuoteLine__c.SBQQ__Discount__c</field>
+                <operation>greaterThan</operation>
+                <value>40</value>
+            </criteriaItems>
+        </entryCriteria>
+        <label>Discount is greater than 40%</label>
+        <name>Discount_is_greater_than_40</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <description>This approval process is worked on the quote line discount field</description>
+    <emailTemplate>unfiled$public/Discount_Approval</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <criteriaItems>
+            <field>SBQQ__QuoteLine__c.SBQQ__Discount__c</field>
+            <operation>greaterThan</operation>
+            <value>15</value>
+        </criteriaItems>
+    </entryCriteria>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <label>Discount is greater than 15%</label>
+    <nextAutomatedApprover>
+        <useApproverFieldOfRecordOwner>false</useApproverFieldOfRecordOwner>
+        <userHierarchyField>Manager</userHierarchyField>
+    </nextAutomatedApprover>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>false</showApprovalHistory>
+</ApprovalProcess>

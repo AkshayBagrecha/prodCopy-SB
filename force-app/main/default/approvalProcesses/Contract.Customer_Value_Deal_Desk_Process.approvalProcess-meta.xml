@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>false</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>ContractNumber</field>
+        <field>Owner</field>
+        <field>Document_Type__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>greg.halko@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <label>Services Sales</label>
+        <name>Services_Sales</name>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Professional_Services_Director__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <approver>
+                <name>pat@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <approver>
+                <name>stephen.topp@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
+        </assignedApprover>
+        <label>Professional Services Practice Directors,Supplier Success,Product REVIEW</label>
+        <name>Professional_Services_Practice_Directors_Supplier_Success_Product_REVIEW</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>sean.norton@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>((Opportunity__r.Implementation_List_Price__c /CURRENCYRATE(TEXT(Opportunity__r.CurrencyIsoCode))) &gt;450000 &amp;&amp; (Opportunity__r.Implementation_List_Price__c /CURRENCYRATE(TEXT(Opportunity__r.CurrencyIsoCode)))&lt;750000)
+
+||
+
+((Opportunity__r.Discount__c * 100)&gt;10 &amp;&amp; (Opportunity__r.Discount__c * 100)&lt;=20)
+
+||
+
+((Opportunity__r.Blended_Rate__c /CURRENCYRATE(TEXT(Opportunity__r.CurrencyIsoCode))) &gt;140 &amp;&amp; (Opportunity__r.Blended_Rate__c /CURRENCYRATE(TEXT(Opportunity__r.CurrencyIsoCode)))&lt;157)
+
+||
+
+((Opportunity__r.Margin_Percent__c * 100)&gt;40 &amp;&amp; (Opportunity__r.Margin_Percent__c * 100)&lt;45)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>VP ProServe Approval</label>
+        <name>Kristian_Fischer_Approval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>kevin.wilbur@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>((Opportunity__r.Implementation_List_Price__c /CURRENCYRATE(TEXT(Opportunity__r.CurrencyIsoCode)))&gt;=750000)
+
+||
+
+((Opportunity__r.Discount__c * 100)&gt;=21 )
+
+||
+
+((Opportunity__r.Blended_Rate__c /CURRENCYRATE(TEXT(Opportunity__r.CurrencyIsoCode)))&lt;=140)
+
+||
+
+((Opportunity__r.Margin_Percent__c * 100)&lt;=40)</formula>
+        </entryCriteria>
+        <label>Final Approval</label>
+        <name>Nav_Kalra_Approval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <emailTemplate>Opportunity_Documents/Opportunity_Document_Approval_Template</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <formula>TEXT( Document_Type__c ) = &#39;Service Sales&#39; &amp;&amp;  Opportunity__r.Ready_for_Service_Sales_Review__c = true &amp;&amp; Has_Attachments__c = true</formula>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>Approved_Email_Alert</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Set_Status_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>Rejected_Email_Alert</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Set_Status_Rejected</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>Set_Status_Submitted</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Customer Value Deal Desk Process</label>
+    <recordEditability>AdminOrCurrentApprover</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>

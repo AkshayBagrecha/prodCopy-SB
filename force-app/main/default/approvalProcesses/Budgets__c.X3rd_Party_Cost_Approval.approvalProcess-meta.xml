@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>false</active>
+    <allowRecall>false</allowRecall>
+    <allowedSubmitters>
+        <type>creator</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <approvalActions>
+            <action>
+                <name>X3rd_Party_Cost_Approval_Submission_Nav</name>
+                <type>Alert</type>
+            </action>
+        </approvalActions>
+        <assignedApprover>
+            <approver>
+                <name>sean.norton@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <label>VP PS Approval</label>
+        <name>KFI_Approval</name>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>kevin.wilbur@tradeshift.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <criteriaItems>
+                <field>Budgets__c.Budget__c</field>
+                <operation>greaterThan</operation>
+                <value>&quot;USD 25,000&quot;</value>
+            </criteriaItems>
+        </entryCriteria>
+        <label>Second Approval</label>
+        <name>NK_Approval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <description>Removed step for EVP Approval</description>
+    <emailTemplate>Budget_Templates/X3rd_Party_Cost_Approval_Assignment</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <criteriaItems>
+            <field>Budgets__c.Type__c</field>
+            <operation>contains</operation>
+            <value>3rd Party Cost</value>
+        </criteriaItems>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>Set_Status_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>X3rd_Party_Cost_Approved</name>
+            <type>Alert</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>Set_Status_Rejected</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>X3rd_Party_Cost_Rejected</name>
+            <type>Alert</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>Set_Status_Submitted</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>X3rd_Party_Cost_Approval_Submission_KFI</name>
+            <type>Alert</type>
+        </action>
+    </initialSubmissionActions>
+    <label>3rd Party Cost Approval (old)</label>
+    <recordEditability>AdminOrCurrentApprover</recordEditability>
+    <showApprovalHistory>false</showApprovalHistory>
+</ApprovalProcess>
